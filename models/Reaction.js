@@ -20,4 +20,11 @@ const reactionSchema = new Schema({
   },
 });
 
+// ! Use a getter method to format the timestamp on query
+
+// Initilizing createdAt virtual to format the date
+reactionSchema.virtual("createdAt").get(function () {
+  return this.createdAt.toLocaleDateString();
+});
+
 module.exports = reactionSchema;
