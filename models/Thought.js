@@ -7,8 +7,8 @@ const thoughtSchema = new Schema(
     thoughtText: {
       type: String,
       required: true,
-      min: [1, "Must have a value!"],
-      max: [280, "Value exceeds limit!"],
+      minlength: [1, "Must have a value!"],
+      maxlength: [280, "Value exceeds limit!"],
     },
     createdAt: {
       type: Date,
@@ -32,6 +32,11 @@ const thoughtSchema = new Schema(
 );
 
 // ! Use a getter method to format the timestamp on query
+
+// Initilizing createdAt virtual to format the date
+thoughtSchema.virtual("createdAt").get(function () {
+  return this.createdAt.toLocaleDateString();
+});
 
 // Initilizing reactionCount virtual to grab length of friends
 thoughtSchema.virtual("reactionCount").get(function () {
