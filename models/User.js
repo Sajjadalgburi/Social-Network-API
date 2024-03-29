@@ -22,6 +22,8 @@ const userSchema = new Schema(
         ref: "Thought",
       },
     ],
+
+    // self-ref key
     friends: [
       {
         type: Schema.Types.ObjectId,
