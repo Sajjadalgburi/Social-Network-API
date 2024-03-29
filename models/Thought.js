@@ -1,5 +1,6 @@
 // Object deconstruct and grab require methods from mongoose
 const { Schema, model } = require("mongoose");
+const reactionSchema = require("./Reaction");
 
 // creatig a new instance of thoughtSchema schema
 const thoughtSchema = new Schema(
