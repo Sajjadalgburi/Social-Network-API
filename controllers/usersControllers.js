@@ -1,4 +1,4 @@
-const { User, Thought } = require("../models");
+const { User } = require("../models");
 
 module.exports = {
   async getAllUsers(req, res) {
@@ -114,6 +114,20 @@ module.exports = {
           .status(404)
           .json({ message: `User with ID ${userId} not found` });
       }
+
+      // Remove the deleted user's ID from thoughts array in User
+      await User.updateMany(
+        {},
+        { $pull: { thoughts: userId } },
+        { multi: true }
+      );
+
+      // Remove the deleted user's ID from thoughts array in Thought
+      await Thought.updateMany(
+        { users: userId },
+        { $pull: { users: userId } },
+        { multi: true }
+      );
 
       // Return the deleted user
       res
