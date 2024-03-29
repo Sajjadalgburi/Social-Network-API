@@ -33,20 +33,23 @@ module.exports = {
 
   async getSingleUser(req, res) {
     try {
-      const results = await User.findOne({ _id: req.params.userId }).select(
-        "-__v"
-          .populate({ path: "thoughts", select: "-__v" })
-          .populate({ path: "friends", select: "-__v" })
-      );
+      // Find a single user by ID, excluding '__v' field, and populate their thoughts and friends
+      const results = await User.findOne({ _id: req.params.userId })
+        .select("-__v")
+        .populate({ path: "thoughts", select: "-__v" })
+        .populate({ path: "friends", select: "-__v" });
 
+      // If user not found, send a 404 response
       if (!results) {
         res
           .status(404)
           .json({ message: `User with ID ${req.params.userId} not found` });
       }
 
+      // Send a JSON response indicating successful user retrieval
       res.status(200).json({ message: "User found", results });
     } catch (err) {
+      // Handle any errors and send an internal server error response
       console.error(err);
       res.status(500).json(err);
     }
