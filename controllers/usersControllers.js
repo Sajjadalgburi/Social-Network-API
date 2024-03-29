@@ -2,13 +2,16 @@ const { User, Thought } = require("../models");
 
 module.exports = {
   async getAllUsers(req, res) {
+    // Fetch all users and their associated thoughts, excluding '__v' field
     const results = await User.find()
       .select("-__v")
       .populate({ path: "thoughts", select: "-__v" });
 
+    // Send HTTP response with fetched results
     res.status(200).json(results);
     try {
     } catch (err) {
+      // Handle any errors and send an internal server error response
       console.error(err);
       res.status(500).json(err);
     }
