@@ -149,4 +149,31 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  async removeFriend(req, res) {
+    try {
+      const userId = req.params.userId;
+
+      // Find the user by ID and update their 'friends' array by removing the specified friend
+      const results = await User.findByIdAndUpdate(
+        userId,
+        { $pull: { friends: { friendId: req.params.friendId } } }, // Using $pull to remove the specified friend
+        { new: true } // Return the updated document
+      );
+
+      // If no user found, send a 404 response
+      if (!results) {
+        return res
+          .status(404)
+          .json({ message: "No user found with that ID :(" });
+      }
+
+      // Send a JSON response with the updated user object
+      res.status(200).json(results);
+    } catch (err) {
+      // Handle any errors and send an internal server error response
+      console.error(err);
+      res.status(500).json(err);
+    }
+  },
 };
