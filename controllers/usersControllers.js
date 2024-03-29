@@ -86,4 +86,33 @@ module.exports = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+
+  async deleteUser(req, res) {
+    try {
+      const userId = req.params.userId;
+
+      // Check if userId is provided
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      // Find and delete user
+      const deletedUser = await User.findByIdAndDelete(userId);
+
+      // If user not found, return 404
+      if (!deletedUser) {
+        return res
+          .status(404)
+          .json({ message: `User with ID ${userId} not found` });
+      }
+
+      // Return the deleted user
+      res
+        .status(200)
+        .json({ message: "User deleted successfully", user: deletedUser });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
