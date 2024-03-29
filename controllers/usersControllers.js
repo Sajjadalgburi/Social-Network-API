@@ -19,10 +19,13 @@ module.exports = {
 
   async createUser(req, res) {
     try {
+      // Create a new user with the data from the request body
       const results = await User.create(req.body);
 
+      // Send a JSON response indicating successful user creation
       res.json({ message: `Created user: ${results}!` });
     } catch (err) {
+      // Handle any errors and send an internal server error response
       console.error(err);
       res.status(500).json(err);
     }
