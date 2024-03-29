@@ -13,4 +13,15 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  async createUser(req, res) {
+    try {
+      const results = await User.create(req.body);
+
+      res.json({ message: `Created user: ${results}!` });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  },
 };
