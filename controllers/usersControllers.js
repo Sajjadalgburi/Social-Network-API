@@ -6,7 +6,7 @@ module.exports = {
       .select("-__v")
       .populate({ path: "thoughts", select: "-__v" });
 
-    res.status.json(results);
+    res.status(200).json(results);
     try {
     } catch (err) {
       console.error(err);
