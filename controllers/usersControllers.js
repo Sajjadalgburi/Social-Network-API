@@ -124,4 +124,29 @@ module.exports = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+
+  async addFriend(req, res) {
+    try {
+      // Find the user by ID and update their 'friends' array by adding the new friend
+      const results = await User.findByIdAndUpdate(
+        { _id: req.params.userId },
+        { $addToSet: { friends: req.body } }, // Using $addToSet to avoid adding duplicate friends
+        { new: true, runValidators: true } // Return the updated document and run validators
+      );
+
+      // If no user found, send a 404 response
+      if (!results) {
+        return res
+          .status(404)
+          .json({ message: "No user found with that ID :(" });
+      }
+
+      // Send a JSON response with the updated user object
+      res.status(200).json(results);
+    } catch (err) {
+      // Handle any errors and send an internal server error response
+      console.error(err);
+      res.status(500).json(err);
+    }
+  },
 };
