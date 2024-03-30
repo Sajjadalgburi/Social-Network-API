@@ -16,4 +16,25 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  async getSingleThought(req, res) {
+    try {
+      const _id = req.params.thoughtId;
+
+      const thought = await Thought.findById(_id).select("-__v");
+
+      // If thought not found, send a 404 response and return to exit the function
+      if (!thought) {
+        return res
+          .status(404)
+          .json({ message: `Thought with ID ${_id} not found` });
+      }
+
+      // Send a JSON response indicating successful thought retrieval
+      res.status(200).json({ message: "Thought found", thought });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  },
 };
