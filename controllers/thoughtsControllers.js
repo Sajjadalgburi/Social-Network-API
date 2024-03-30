@@ -37,10 +37,6 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Assuming you have User and Thought schemas defined
-
-  // In your createThought function
-
   async createThought(req, res) {
     try {
       // Create the thought
