@@ -37,6 +37,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
   async createThought(req, res) {
     try {
       // Create the thought
@@ -63,6 +64,44 @@ module.exports = {
 
       // Send a JSON response indicating successful creation of new thought
       res.json({ message: `Created new thought: ${newThought._id}!` });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  },
+
+  async updateThought(req, res) {
+    try {
+      const id = req.params.thoughtId;
+      const { thoughtText, username } = req.body;
+
+      // Check if thoughtId is provided
+      if (!id) {
+        return res.status(400).json({ message: "thought ID is required" });
+      }
+
+      // Check if thoughtText and username are provided
+      if (!thoughtText || !username) {
+        return res
+          .status(400)
+          .json({ message: "thoughtText and username are required" });
+      }
+
+      const thought = await Thought.findByIdAndUpdate(
+        id,
+        { thoughtText, username },
+        { new: true } // Returns the modified document rather than the original
+      );
+
+      // If thought not found, send a 404 response and return to exit the function
+      if (!thought) {
+        return res.status(404).json({
+          message: `Thought with ID ${id} not found`, // Fixed typo here
+        });
+      }
+
+      // Send a JSON response indicating successful thought retrieval
+      res.status(200).json({ message: "Thought updated", thought });
     } catch (err) {
       console.error(err);
       res.status(500).json(err);
