@@ -146,4 +146,23 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  async removeReaction(req, res) {
+    try {
+      const results = await Thought.findOneAndDelete(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: { reactionId: req.params.reactionId } } },
+        { runValidators: true, new: true }
+      );
+
+      if (!results) {
+        return res.status(404).json({ message: "No Thought with this id!" });
+      }
+
+      res.status(200).json(results);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  },
 };
