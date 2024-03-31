@@ -7,7 +7,7 @@ const reactionSchema = new Schema({
   },
   reactionBody: {
     type: String,
-    require: true,
+    required: true,
     maxlength: 280,
   },
   username: {
@@ -19,11 +19,11 @@ const reactionSchema = new Schema({
     default: Date.now,
   },
 });
-
+``;
 // ! Use a getter method to format the timestamp on query
 
 // Initilizing createdAt virtual to format the date
-reactionSchema.virtual("createdAt").get(function () {
+reactionSchema.virtual("formattedDate").get(function () {
   return this.createdAt.toLocaleDateString();
 });
 
