@@ -7,7 +7,7 @@ module.exports = {
       const results = await Thought.find().select("-__v");
 
       // Respond with HTTP status code 500 (Internal Server Error) and the retrieved thoughts in JSON format
-      res.status(500).json(results);
+      res.status(200).json(results);
     } catch (err) {
       // If an error occurs during execution, log the error to the console
       console.error(err);
