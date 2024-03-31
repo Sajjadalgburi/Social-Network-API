@@ -1,5 +1,4 @@
 const { Thought, User } = require("./../models");
-const { reactionSchema } = require("./../models/Reaction");
 
 module.exports = {
   async getAllThoughts(req, res) {
@@ -123,6 +122,25 @@ module.exports = {
 
       // Send a JSON response indicating successful thought retrieval
       res.status(200).json({ message: "Thought deleted from database!" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  },
+
+  async createReaction(req, res) {
+    try {
+      const results = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { reactions: req.body } },
+        { runValidators: true, new: true }
+      );
+
+      if (!results) {
+        return res.status(404).json({ message: "No Thought with this id!" });
+      }
+
+      res.status(200).json(results);
     } catch (err) {
       console.error(err);
       res.status(500).json(err);
