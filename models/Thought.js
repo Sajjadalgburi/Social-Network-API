@@ -35,7 +35,7 @@ const thoughtSchema = new Schema(
 // ! Use a getter method to format the timestamp on query
 
 // Initilizing createdAt virtual to format the date
-thoughtSchema.virtual("createdAt").get(function () {
+thoughtSchema.virtual("formattedDate").get(function () {
   return this.createdAt.toLocaleDateString();
 });
 
