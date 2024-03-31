@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "seed": "node util/index.js",
-    "dev": "npm run seed && npm run watch"
+    "seed": "node util/index.js"
   },
   "keywords": [],
   "author": "",
