@@ -23,7 +23,7 @@ module.exports = {
       const results = await User.create(req.body);
 
       // Send a JSON response indicating successful user creation
-      res.json({ message: `Created user: ${results}!` });
+      res.status(200).json({ message: `Created user: ${results}!` });
     } catch (err) {
       // Handle any errors and send an internal server error response
       console.error(err);
